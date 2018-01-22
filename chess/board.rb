@@ -1,8 +1,14 @@
 require_relative 'piece'
 
 class Board
+  attr_reader :grid
+
   def initialize
-    @grid = Array.new(8) { Array.new(8) {Piece.new} }
+    @grid = Array.new(8) { Array.new(8) {nil} }
+    self.set_board
+  end
+
+  def set_board
   end
 
   def [](pos)
