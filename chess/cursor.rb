@@ -33,11 +33,12 @@ MOVES = {
 class Cursor
 
   attr_reader :board
-  attr_accessor :cursor_pos
+  attr_accessor :cursor_pos, :move_buffer
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
+    @move_buffer = []
   end
 
   def get_input
@@ -80,6 +81,10 @@ class Cursor
     if [:left, :right, :up, :down].include?(key)
       diff = MOVES[key]
       update_pos(diff)
+    elsif key == :space
+      move_buffer << @cursor_pos
+    elsif key == :ctrl_c
+      exit  
     end
   end
 

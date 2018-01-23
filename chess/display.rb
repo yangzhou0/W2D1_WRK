@@ -14,37 +14,14 @@ class Display
   def render
     @board.grid.each_with_index do |row, i|
       row.each_with_index do |piece, j|
+        (i + j).even? ? back = :light_white : back = :light_black
         if [i,j] == @cursor.cursor_pos
-          print piece.inspect.colorize(:red)
+          print piece.symbol.colorize(:light_red).colorize( :background => :red)
         else
-          print piece.inspect.colorize(:blue)
+          print piece.symbol.colorize(:color => piece.color, :background => back)
         end
-        print ' '
       end
       print "\n"
     end
   end
-
-  def render_loop
-    5.times do
-      self.render
-      self.cursor.get_input
-      system("clear")
-    end
-  end
-
 end
-
-b = Board.new
-d = Display.new(b)
-d.render_loop
-
-
-#
-#
-# if __FILE__ == $PROGRAM_NAME do
-#   # pseudocode
-#   while true
-#     display.render
-#   end
-# end
