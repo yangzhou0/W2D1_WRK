@@ -1,5 +1,5 @@
 # PHASE 2
-
+require 'byebug'
 
 def convert_to_int(str)
 
@@ -48,23 +48,21 @@ end
 # PHASE 4
 class BestFriend
 
+    attr_reader :name, :yrs_known, :fav_pastime
+
     def initialize(name, yrs_known, fav_pastime)
         @name = name
         @yrs_known = yrs_known
         @fav_pastime = fav_pastime
         begin
           raise YearsError.new("You cannot know a bestie less than five years") if @yrs_known < 5
-          raise PastimeError.new("You must know your best friends' name") if @fav_pastime.length < 1
-          raise NameError.new("You must know your best friend's name") if @name.length < 1
-        rescue NameError
-          puts "Give me your best friend's name"
-          @name = gets.chomp
-        rescue YearsError
-          puts "Tell me more than 5 years"
-          @yrs_known = gets.chomp.to_i
-        rescue PastimeError
-          puts "Give me your bestfriend's pasttime"
-          @fav_pastime = gets.chomp
+          raise PastimeError.new("You must know your best friend's pasttime") if @fav_pastime.length <= 1
+          raise NameError.new("You must know your best friend's name") if @name.length <= 1
+        rescue NameError, YearsError, PastimeError => e
+          puts e.message
+          @name = gets.chomp if e.class == NameError
+          @yrs_known = gets.chomp.to_i if e.class == YearsError
+          @fav_pastime = gets.chomp if e.class == PastimeError
         retry
       end
     end
@@ -81,3 +79,8 @@ class BestFriend
     puts "Hey bestie, I made you a friendship bracelet. It says my name, #{@name}, so you never forget me."
   end
 end
+
+harry = BestFriend.new("",2,"")
+puts harry.name
+puts harry.yrs_known
+puts harry.fav_pastime
